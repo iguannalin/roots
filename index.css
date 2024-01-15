@@ -28,3 +28,7 @@ body {
 span {
   position: absolute;
 }
+
+.tree {
+  color: limegreen;
+}
