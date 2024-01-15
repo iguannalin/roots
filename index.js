@@ -25,14 +25,19 @@ window.addEventListener("load", () => {
   }
 
   function drawTree() {
-    const treeSpans = Array.from(document.getElementsByClassName("tree"));
+    let treeSpans = Array.from(document.getElementsByClassName("tree"));
     if (treeSpans.length > 15) {
       const tree = treeSpans[treeIndex];
       const lastTree = treeSpans[(treeIndex*15)%treeSpans.length]; // let's say every tree should consist of ~15 elems
-      tree.style.top = +(lastTree.style.top.split("px")[0]) + getRandomInt(1, 10) + "px";
-      tree.style.left = +(lastTree.style.left.split("px")[0]) + getRandomInt(0, 5) + "px";
+      tree.style.top = +(lastTree.style.top.split("px")[0]) - getRandomInt(1, 10) + "px";
+      tree.style.left = +(lastTree.style.left.split("px")[0]) + ((Math.random()>0.5?-1:1) * getRandomInt(0, 5)) + "px";
       tree.innerText = trees[getRandomInt(0, trees.length)];
       treeIndex += 1;
+    }
+    if (treeSpans.length > 100) {
+      treeSpans[0].remove();
+      
+      treeIndex -= 1;
     }
   }
 
