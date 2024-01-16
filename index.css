@@ -29,6 +29,6 @@ span {
   position: absolute;
 }
 
-.tree {
+.tree, .old {
   color: limegreen;
 }
