@@ -53,7 +53,7 @@ window.addEventListener("load", () => {
       let grass = grassSpans[0];
       grass.className = "tree";
       grass.innerText = "";
-      drawTree();
+      // drawTree();
     }
   }
 
