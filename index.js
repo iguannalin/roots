@@ -16,7 +16,7 @@ window.addEventListener("load", () => {
   const trees = ["木", "林", "森"];//, "冫", "氵"];
   let grassIndex = 0;
   let treeIndex = 0;
-  let threshold = 150;
+  let threshold = 75;
   let treeThreshold = 25;
 
   let timeout = (dot) => dot.innerText = "";
