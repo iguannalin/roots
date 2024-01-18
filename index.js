@@ -9,15 +9,15 @@ window.addEventListener("load", () => {
   // including:
   // 1) grass & tree radicals
   // 2) radicals that look like grass or trees
-  // 3) water radicals bc water makes up everything
+  // 3) water radicals bc water makes up everything - nvm
   // 4) fire 灬 radical bc that is also a part of nature
   const grasses = ["⺌", "丶", "⺍", "灬", "艹", "⺮"];//, "冫", "氵"];
-  const touchPoints = [];
   const trees = ["木", "林", "森"];//, "冫", "氵"];
+  const touchPoints = [];
   let grassIndex = 0;
   let treeIndex = 0;
-  let threshold = 75;
-  let treeThreshold = 25;
+  let grassmax = 75;
+  let treemax = 25;
 
   let timeout = (dot) => dot.innerText = "";
 
@@ -25,13 +25,12 @@ window.addEventListener("load", () => {
     if (Math.random()>0.4) return; // skips sometimes
     let dot;
     const grassSpans = Array.from(document.getElementsByClassName("grass"));
-    if (grassSpans.length > threshold) { // only the threshold amount of grass spans allowed
+    if (grassSpans.length > grassmax) { // only the max amount of grass spans allowed
       dot = grassSpans[grassIndex];
       dot.style.top = y-7+"px";
       dot.style.left = x-7+"px";
-      grassIndex = grassIndex >= threshold ? 0 : grassIndex + 1;
+      grassIndex = grassIndex >= grassmax ? 0 : grassIndex + 1;
       if (Math.random()>0.4) setTimeout(drawTree, getRandomInt(2500, 7000));
-      // clearTimeout(timeout);
     }
     else {
       dot = document.createElement("span");
@@ -39,14 +38,11 @@ window.addEventListener("load", () => {
       dot.style.top = y-7+"px";
       dot.style.left = x-7+"px";
       container.appendChild(dot);
-      // if (Math.random()>0.2) 
-      // setTimeout(timeout(dot), getRandomInt(8000, 10000)); // disappear after a while
     }
     dot.innerText = grasses[getRandomInt(0, grasses.length)]; // 
   }
 
   function drawTree() {
-    // if (Math.random()>0.6) return; // skips sometimes
     if (!touchPoints[treeIndex]) return;
     const tree = document.createElement("span");
     const center = touchPoints[treeIndex];
@@ -58,7 +54,7 @@ window.addEventListener("load", () => {
     tree.style.top = center.y + "px";
     center.ct += 1;
     container.appendChild(tree);
-    if (center.ct > treeThreshold && treeIndex < touchPoints.length) treeIndex += 1;
+    if (center.ct > treemax && treeIndex < touchPoints.length) treeIndex += 1;
   }
   
   function handleTouch(e, isMobile = false) {
