@@ -29,6 +29,11 @@ span {
   position: absolute;
 }
 
-.tree, .old {
+.grass, .center {
+  z-index: 0;
+}
+
+.tree {
+  z-index: 100;
   color: lime;
 }

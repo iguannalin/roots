@@ -10,8 +10,8 @@ window.addEventListener("load", () => {
   // 1) grass & tree radicals
   // 2) radicals that look like grass or trees
   // 3) water radicals bc water makes up everything - nvm
-  // 4) fire 灬 radical bc that is also a part of nature
-  const grasses = ["⺌", "丶", "⺍", "灬", "艹", "⺮"];//, "冫", "氵"];
+  // 4) fire 灬 radical bc that is also a part of nature - nvm
+  const grasses = ["⺌", "丶", "⺍", "艹", "⺮"];//, "冫", "氵"];
   const trees = ["木", "林", "森"];//, "冫", "氵"];
   const touchPoints = [];
   let grassIndex = 0;
@@ -19,13 +19,11 @@ window.addEventListener("load", () => {
   let grassmax = 75;
   let treemax = 25;
 
-  let timeout = (dot) => dot.innerText = "";
-
-  function drawGrass(x, y) {
-    if (Math.random()>0.4) return; // skips sometimes
+  function drawGrass(x, y, isCenter=false) {
+    if (Math.random()>0.4 && !isCenter) return; // skips sometimes
     let dot;
     const grassSpans = Array.from(document.getElementsByClassName("grass"));
-    if (grassSpans.length > grassmax) { // only the max amount of grass spans allowed
+    if (grassSpans.length > grassmax && !isCenter) { // only the max amount of grass spans allowed
       dot = grassSpans[grassIndex];
       dot.style.top = y-7+"px";
       dot.style.left = x-7+"px";
@@ -34,7 +32,7 @@ window.addEventListener("load", () => {
     }
     else {
       dot = document.createElement("span");
-      dot.className = "grass";
+      dot.className = isCenter ? "center" : "grass";
       dot.style.top = y-7+"px";
       dot.style.left = x-7+"px";
       container.appendChild(dot);
