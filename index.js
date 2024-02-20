@@ -6,13 +6,8 @@ window.addEventListener("load", () => {
   }
 
   const container = document.getElementById("container");
-  // including:
-  // 1) grass & tree radicals
-  // 2) radicals that look like grass or trees
-  // 3) water radicals bc water makes up everything - nvm
-  // 4) fire 灬 radical bc that is also a part of nature - nvm
-  const grasses = ["⺌", "丶", "⺍", "艹", "⺮"];//, "冫", "氵"];
-  const trees = ["木", "林", "森"];//, "冫", "氵"];
+  const grasses = ["⺌", "丶", "⺍", "艹", "⺮"]; // grass & "grass" radicals
+  const trees = ["木", "林", "森"]; // tree radicals
   const touchPoints = [];
   let grassIndex = 0;
   let treeIndex = 0;
@@ -37,7 +32,7 @@ window.addEventListener("load", () => {
       dot.style.left = x-7+"px";
       container.appendChild(dot);
     }
-    dot.innerText = grasses[getRandomInt(0, grasses.length)]; // 
+    dot.innerText = grasses[getRandomInt(0, grasses.length)];
   }
 
   function drawTree() {
