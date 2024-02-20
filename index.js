@@ -14,6 +14,23 @@ window.addEventListener("load", () => {
   let grassmax = 75;
   let treemax = 25;
 
+  function drawBorder(elem, isTop) {
+    elem.className = "border";
+    elem.style.position = "absolute";
+    if (isTop) elem.style.top = 0;
+    else {
+      elem.style.bottom = 0;
+      elem.style.transform = "rotateX(180deg)";
+    }
+    for (let i = 0; i < window.innerWidth/25; i++) {
+      const span = document.createElement("span");
+      span.innerText += (i%5==0) ? "壵" : (i%4 == 0) ? "焱" : (i%3==0) ? "淼": (i%2==0) ? "森" : "鑫"//" ⼟ ";//i%2==0 ? "丶" : Math.random() > 0.7 ? "⼟" : "⽯";
+      // elem.innerText 
+      elem.appendChild(span);
+    }
+    container.appendChild(elem);
+  }
+
   function drawGrass(x, y, isCenter=false) {
     if (Math.random()>0.4 && !isCenter) return; // skips sometimes
     let dot;
@@ -70,5 +87,10 @@ window.addEventListener("load", () => {
 
   document.addEventListener('mousedown', handleTouch, {passive: false});
   document.addEventListener('touchstart', (e) => handleTouch(e, true), {passive: false});
+
+  const topBorder = document.createElement("div");
+  const botBorder = document.createElement("div");
+  drawBorder(topBorder, true);
+  drawBorder(botBorder, false);
   // ontouchstart = (e) => handleTouch(e, true); // doesn't work if you want to get rid of auto text-select on safari (via e.preventDefault())
 });

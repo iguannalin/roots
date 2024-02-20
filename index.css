@@ -37,3 +37,18 @@ span {
   z-index: 100;
   color: lime;
 }
+
+.border {
+  width: 150vw;
+  font-size: 12px;
+}
+
+.border span {
+  border: 0.5px solid var(--main-text-color);
+  border-radius: 20px;
+  padding: 8px 16px;
+  margin-left: -12px;
+  box-sizing: border-box;
+  position: relative;
+  display: inline;
+}
