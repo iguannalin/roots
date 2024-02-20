@@ -7,6 +7,7 @@ window.addEventListener("load", () => {
 
   const container = document.getElementById("container");
   const info = document.getElementById("info");
+  const details = document.getElementById("details");
   const grasses = ["⺌", "丶", "⺍", "艹", "⺮"]; // grass & "grass" radicals
   const trees = ["木", "林", "森"]; // tree radicals
   const touchPoints = [];
@@ -16,23 +17,6 @@ window.addEventListener("load", () => {
   let treeIndex = 0;
   let grassmax = 75;
   let treemax = 25;
-
-  function drawBorder(elem, isTop) {
-    elem.className = "border";
-    elem.style.position = "absolute";
-    if (isTop) elem.style.top = 0;
-    else {
-      elem.style.bottom = 0;
-      elem.style.transform = "rotateX(180deg)";
-    }
-    for (let i = 0; i < window.innerWidth/25; i++) {
-      const span = document.createElement("span");
-      span.innerText += (i%5==0) ? "壵" : (i%4 == 0) ? "焱" : (i%3==0) ? "淼": (i%2==0) ? "森" : "鑫"//" ⼟ ";//i%2==0 ? "丶" : Math.random() > 0.7 ? "⼟" : "⽯";
-      // elem.innerText 
-      elem.appendChild(span);
-    }
-    container.appendChild(elem);
-  }
 
   function drawGrass(x, y, isCenter=false) {
     if (Math.random()>0.4 && !isCenter) return; // skips sometimes
@@ -71,10 +55,14 @@ window.addEventListener("load", () => {
   }
   
   function handleTouch(e, isMobile = false) {
-    if (isDetailsClicked && !windowOpen) return;
-    else if (windowOpen) {
+    console.log(e.target)
+    if ((windowOpen && e.target && e.target.parentElement == info) || e.target == details) {
+      return;
+    } else if (windowOpen && e.target && e.target.parentElement != info) {
+      windowOpen = false;
       isDetailsClicked = false;
       info.style.display = "none";
+      return;
     }
     e.preventDefault();
     let [x, y] = (!isMobile) ? [e.pageX, e.pageY] : [e.targetTouches[0].pageX, e.targetTouches[0].pageY];
@@ -99,20 +87,13 @@ window.addEventListener("load", () => {
     info.appendChild(pre);
   });
   
-  document.getElementById("details").onclick = () => {
+  details.onclick = () => {
     isDetailsClicked = true;
     windowOpen = true;
     info.style.display = "block";
   }
   document.addEventListener('mousedown', handleTouch, {passive: false});
   document.addEventListener('touchstart', (e) => handleTouch(e, true), {passive: false});
-
-
-  // const topBorder = document.createElement("div");
-  // const botBorder = document.createElement("div");
-  // drawBorder(topBorder, true);
-  // drawBorder(botBorder, false);
-
 
   // ontouchstart = (e) => handleTouch(e, true); // doesn't work if you want to get rid of auto text-select on safari (via e.preventDefault())
 });

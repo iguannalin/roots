@@ -62,7 +62,6 @@ span {
 }
 
 button {
-  cursor: pointer;
   color: var(--main-text-color);
   border: none;
   font-size: 16px;
@@ -72,6 +71,7 @@ button {
 
 #help button:hover {
   font-weight: bold;
+  cursor: pointer;
 }
 
 #info {
@@ -83,6 +83,7 @@ button {
   overflow-y: scroll;
   background-color: green;
   border-radius: 12px;
+  box-shadow: 1px 1px 10px var(--shadow-color);
 }
 
 pre {
