@@ -67,7 +67,7 @@ span {
   bottom: 12px;
 }
 
-#help button {
+button {
   cursor: pointer;
   color: var(--main-text-color);
   border: none;
@@ -76,12 +76,22 @@ span {
   padding: 8px 12px;
 }
 
+#grow {
+  border: 1px solid var(--main-text-color);
+  border-radius: 20px;
+  font-size: 12px;
+}
+
+#grow:hover {
+  background-color: #555;
+}
+
 #help button:hover {
   font-weight: bold;
 }
 
 #info {
-  display: none;
+  /* display: none; */
   position: fixed;
   height: 80vh;
   max-width: 50ch;

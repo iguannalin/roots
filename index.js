@@ -11,7 +11,7 @@ window.addEventListener("load", () => {
   const trees = ["木", "林", "森"]; // tree radicals
   const touchPoints = [];
   let isDetailsClicked = false;
-  let windowOpen = false;
+  let windowOpen = true;
   let grassIndex = 0;
   let treeIndex = 0;
   let grassmax = 75;
@@ -72,7 +72,7 @@ window.addEventListener("load", () => {
   
   function handleTouch(e, isMobile = false) {
     if (isDetailsClicked && !windowOpen) return;
-    else if (isDetailsClicked && windowOpen) {
+    else if (windowOpen) {
       isDetailsClicked = false;
       info.style.display = "none";
     }
@@ -92,7 +92,17 @@ window.addEventListener("load", () => {
     }, 50);
     (!isMobile) ? onmouseup = () => {clearInterval(interval);} : ontouchend = () => {clearInterval(interval);};
   }
+
+  fetch("info.txt").then((r)=>r.text()).then((d)=>{
+    const pre = document.createElement("pre");
+    pre.innerHTML = d;
+    info.appendChild(pre);
+  });
   
+  document.getElementById("grow").addEventListener('mousedown', () => {
+    console.log("clicked");
+    document.getElementById("begin").style.display = "none";
+  });
   document.getElementById("details").onclick = () => {
     isDetailsClicked = true;
     windowOpen = true;
