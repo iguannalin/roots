@@ -1,21 +1,4 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>treeroots</title>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="index.css"/>
-        <script src="index.js"></script>
-    </head>
-    <body>
-        <div id="container">
-            <div id="begin">
-                <span>grow</span>
-            </div>
-        </div>
-        <div id="info">
-            <pre>
-                艹
+艹
 	艹艹			艹   
 
 grass 草		艹艹
@@ -43,10 +26,3 @@ grow some grass--over time, the grass radicals will regenerate as tree radicals.
 
 	艹
 		艹艹 艹
-            </pre>
-        </div>
-        <div id="help">
-            <button id="details">...</button>
-        </div>
-    </body>
-</html>

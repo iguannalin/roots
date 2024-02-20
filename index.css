@@ -43,7 +43,15 @@ span {
   font-size: 12px;
 }
 
-.border span {
+#begin {
+  font-size: 12px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  text-align: center;
+}
+
+.border span, #begin span {
   border: 0.5px solid var(--main-text-color);
   border-radius: 20px;
   padding: 8px 16px;
@@ -51,4 +59,39 @@ span {
   box-sizing: border-box;
   position: relative;
   display: inline;
+}
+
+#help {
+  position: fixed;
+  right: 12px;
+  bottom: 12px;
+}
+
+#help button {
+  cursor: pointer;
+  color: var(--main-text-color);
+  border: none;
+  font-size: 16px;
+  background-color: transparent;
+  padding: 8px 12px;
+}
+
+#help button:hover {
+  font-weight: bold;
+}
+
+#info {
+  display: none;
+  position: fixed;
+  height: 80vh;
+  max-width: 50ch;
+  overflow-y: scroll;
+  background-color: green;
+  border-radius: 12px;
+}
+
+pre {
+  font-size: 10px;
+  padding: 24px;
+  white-space: pre-wrap;
 }
