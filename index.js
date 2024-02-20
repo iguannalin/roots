@@ -99,10 +99,6 @@ window.addEventListener("load", () => {
     info.appendChild(pre);
   });
   
-  document.getElementById("grow").addEventListener('mousedown', () => {
-    console.log("clicked");
-    document.getElementById("begin").style.display = "none";
-  });
   document.getElementById("details").onclick = () => {
     isDetailsClicked = true;
     windowOpen = true;
