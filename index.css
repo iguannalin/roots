@@ -79,7 +79,7 @@ button {
   z-index: 100;
   position: fixed;
   height: 80vh;
-  width: 50ch;
+  width: min(85vw, 50ch);
   overflow-y: scroll;
   background-color: green;
   border-radius: 12px;
