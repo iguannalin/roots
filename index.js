@@ -55,10 +55,7 @@ window.addEventListener("load", () => {
   }
   
   function handleTouch(e, isMobile = false) {
-    console.log(e.target)
-    if ((windowOpen && e.target && e.target.parentElement == info) || e.target == details) {
-      return;
-    } else if (windowOpen && e.target && e.target.parentElement != info) {
+    if (windowOpen) {
       windowOpen = false;
       isDetailsClicked = false;
       info.style.display = "none";
@@ -87,10 +84,11 @@ window.addEventListener("load", () => {
     info.appendChild(pre);
   });
   
-  details.onclick = () => {
+  details.onclick = (e) => {
     isDetailsClicked = true;
     windowOpen = true;
     info.style.display = "block";
+    e.preventDefault();
   }
   document.addEventListener('mousedown', handleTouch, {passive: false});
   document.addEventListener('touchstart', (e) => handleTouch(e, true), {passive: false});
