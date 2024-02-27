@@ -5,7 +5,7 @@
 }
 
 body {
-  width: 100vw;
+  width: 500%;
   height: 100vh;
   margin: 0 auto;
   cursor: pointer;
@@ -17,7 +17,7 @@ body {
   color: var(--main-text-color);
   text-shadow: var(--shadow-color) -2px 2px 8px;
   user-select: none;
-  overflow: hidden;
+  overflow-y: hidden;
 }
 
 #container {
