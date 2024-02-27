@@ -21,7 +21,7 @@
             getDatabase,
             ref,
             set,
-            onValue,
+            get,
             child,
             push,
             remove,
@@ -60,43 +60,50 @@
                 max = Math.floor(max);
                 return Math.floor(Math.random() * (max - min) + min); // The maximum is exclusive and the minimum is inclusive
             }
-
-            onValue(dataRef, (snapshot) => {
+            
+            get(dataRef).then((snapshot) => {
+                if (!snapshot) return;
                 const data = snapshot.val();
                 if (!data) return;
                 for (let item in data) {
+                    console.log(data[item]);
                     const pos = data[item].split(",");
-                    touchPoints.push({x:pos[0],y:pos[1]});
-                    let dot;
-                    dot = document.createElement("span");
-                    dot.className = "center";
-                    dot.innerText = grasses[getRandomInt(0, grasses.length)];
-                    dot.style.top = pos[1]+"px";
-                    dot.style.left = pos[0]+"px";
-                    container.appendChild(dot);
+                    const elem = document.createElement("span");
+                    if (pos[2] && pos[2] == "tree") {
+                        elem.innerText = trees[getRandomInt(0, trees.length)];
+                        elem.style.top = pos[1]+"px";
+                        elem.style.left = pos[0]+"px";
+                    } else {
+                        elem.innerText = grasses[getRandomInt(0, grasses.length)];
+                        elem.style.top = pos[1]+"px";
+                        elem.style.left = pos[0]+"px";
+                    }
+                    elem.className = pos[2] ? pos[2] : "grass";
+                    container.appendChild(elem);
+                    touchPoints.push({x:pos[0],y:pos[1],class:pos[2]});
                 }
             });
 
             function drawGrass(x, y, isCenter=false) {
                 if (Math.random()>0.4 && !isCenter) return; // skips sometimes
-                let dot;
+                let grass;
                 const grassSpans = Array.from(document.getElementsByClassName("grass"));
                 if (grassSpans.length > grassmax && !isCenter) { // only the max amount of grass spans allowed
-                    dot = grassSpans[grassIndex];
-                    dot.style.top = y-7+"px";
-                    dot.style.left = x-7+"px";
+                    grass = grassSpans[grassIndex];
+                    grass.style.top = y-7+"px";
+                    grass.style.left = x-7+"px";
                     grassIndex = grassIndex >= grassmax ? 0 : grassIndex + 1;
                     if (Math.random()>0.4) setTimeout(drawTree, getRandomInt(2500, 7000));
                 }
                 else {
-                    dot = document.createElement("span");
-                    dot.className = isCenter ? "center" : "grass";
-                    dot.style.top = y-7+"px";
-                    dot.style.left = x-7+"px";
-                    container.appendChild(dot);
+                    grass = document.createElement("span");
+                    grass.className = isCenter ? "center" : "grass";
+                    grass.style.top = y-7+"px";
+                    grass.style.left = x-7+"px";
+                    container.appendChild(grass);
                 }
-                dot.innerText = grasses[getRandomInt(0, grasses.length)];
-                if (isCenter) push(dataRef, `${x-7},${y-7}`);
+                grass.innerText = grasses[getRandomInt(0, grasses.length)];
+                push(dataRef, `${x-7},${y-7},${isCenter ? "center" : "grass"}`);
             }
 
             function drawTree() {
@@ -112,6 +119,7 @@
                 center.ct += 1;
                 container.appendChild(tree);
                 if (center.ct > treemax && treeIndex < touchPoints.length) treeIndex += 1;
+                push(dataRef, `${center.x},${center.y},tree`);
             }
             
             function handleTouch(e, isMobile = false) {
