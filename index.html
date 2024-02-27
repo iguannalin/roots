@@ -41,22 +41,7 @@
         const database = getDatabase(app);
         const dataRef = ref(database, "/grassLocations");
 
-
         window.addEventListener("load", () => {
-            function getRandomInt(min, max) {
-                min = Math.ceil(min);
-                max = Math.floor(max);
-                return Math.floor(Math.random() * (max - min) + min); // The maximum is exclusive and the minimum is inclusive
-            }
-
-            onValue(dataRef, (snapshot) => {
-                const data = snapshot.val();
-                console.log(data);
-                for (let item in data) {
-                    console.log(data[item]);
-                }
-            });
-
             const container = document.getElementById("container");
             const info = document.getElementById("info");
             const details = document.getElementById("details");
@@ -69,6 +54,28 @@
             let treeIndex = 0;
             let grassmax = 75;
             let treemax = 25;
+
+            function getRandomInt(min, max) {
+                min = Math.ceil(min);
+                max = Math.floor(max);
+                return Math.floor(Math.random() * (max - min) + min); // The maximum is exclusive and the minimum is inclusive
+            }
+
+            onValue(dataRef, (snapshot) => {
+                const data = snapshot.val();
+                if (!data) return;
+                for (let item in data) {
+                    const pos = data[item].split(",");
+                    touchPoints.push({x:pos[0],y:pos[1]});
+                    let dot;
+                    dot = document.createElement("span");
+                    dot.className = "center";
+                    dot.innerText = grasses[getRandomInt(0, grasses.length)];
+                    dot.style.top = pos[1]+"px";
+                    dot.style.left = pos[0]+"px";
+                    container.appendChild(dot);
+                }
+            });
 
             function drawGrass(x, y, isCenter=false) {
                 if (Math.random()>0.4 && !isCenter) return; // skips sometimes
@@ -88,8 +95,8 @@
                     dot.style.left = x-7+"px";
                     container.appendChild(dot);
                 }
-                push(dataRef, `${x-7},${y-7}`);
                 dot.innerText = grasses[getRandomInt(0, grasses.length)];
+                if (isCenter) push(dataRef, `${x-7},${y-7}`);
             }
 
             function drawTree() {
