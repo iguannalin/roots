@@ -65,22 +65,24 @@
                 const data = snapshot.val();
                 if (!data) return;
                 for (let item in data) {
-                    console.log(data[item]);
                     const pos = data[item].split(",");
                     const elem = document.createElement("span");
                     if (pos[2] && pos[2] == "tree") {
                         elem.innerText = trees[getRandomInt(0, trees.length)];
                         elem.style.top = pos[1]+"px";
                         elem.style.left = pos[0]+"px";
+                        touchPoints.push({x:pos[0],y:pos[1],class:pos[2],ct:pos[3]});
+                        treeIndex += 1;
                     } else {
                         elem.innerText = grasses[getRandomInt(0, grasses.length)];
                         elem.style.top = pos[1]+"px";
                         elem.style.left = pos[0]+"px";
+                        touchPoints.push({x:pos[0],y:pos[1],class:pos[2]});
                     }
                     elem.className = pos[2] ? pos[2] : "grass";
                     container.appendChild(elem);
-                    touchPoints.push({x:pos[0],y:pos[1],class:pos[2]});
                 }
+                console.log(touchPoints)
             });
 
             function drawGrass(x, y, isCenter=false) {
@@ -113,12 +115,12 @@
                 tree.innerText = trees[getRandomInt(0, trees.length)];
                 center.x = +(center.x) + ((Math.random()>0.5?-1:1) * getRandomInt(1,10));
                 tree.style.left = center.x + "px";
-                center.y -= 1+(Math.random()*8); 
+                center.y -= 1+(Math.random()*8);
                 tree.style.top = center.y + "px";
-                center.ct += 1;
+                center.ct += 1; // count of tree characters 'grown' in that one center point
                 container.appendChild(tree);
                 if (center.ct > treemax && treeIndex < touchPoints.length) treeIndex += 1;
-                push(dataRef, `${center.x},${center.y},tree`);
+                push(dataRef, `${center.x},${center.y},tree,${center.ct}`);
             }
             
             function handleTouch(e, isMobile = false) {
@@ -136,11 +138,11 @@
                 let radius = 2;
                 let s = 0; let c = 0;
                 for (let i = 0; i < getRandomInt(2,5); i++) {
-                touchPoints.push({x:x+(i*Math.random()*25), y:y+(i*Math.random()*25), ct: 0});
+                    touchPoints.push({x:x+(i*Math.random()*25), y:y+(i*Math.random()*25), ct: 0});
                 }
                 let interval = setInterval(() => {
-                radius = getRandomInt(10, 50);
-                drawGrass(getX(s+=1,radius), getY(c+=1,radius));
+                    radius = getRandomInt(10, 50);
+                    drawGrass(getX(s+=1,radius), getY(c+=1,radius));
                 }, 50);
                 (!isMobile) ? onmouseup = () => {clearInterval(interval);} : ontouchend = () => {clearInterval(interval);};
             }
