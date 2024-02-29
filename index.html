@@ -123,13 +123,13 @@
             }
             
             function handleTouch(e, isMobile = false) {
-                if (windowOpen) {
-                windowOpen = false;
-                isDetailsClicked = false;
-                info.style.display = "none";
-                return;
+                if (windowOpen && !(e && e.target && e.target.href)) { // close window if anywhere on screen is clicked
+                    windowOpen = false;
+                    isDetailsClicked = false;
+                    info.style.display = "none";
+                    return;
                 }
-                // e.preventDefault();
+                e.preventDefault();
                 let [x, y] = (!isMobile) ? [e.pageX, e.pageY] : [e.targetTouches[0].pageX, e.targetTouches[0].pageY];
                 drawGrass(x, y, true);
                 let getX = (s=0,r) => x + r * Math.sin(s);
