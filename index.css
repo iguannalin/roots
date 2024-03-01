@@ -70,11 +70,11 @@ span {
 }
 
 button {
-  color: var(--main-text-color);
+  color: lime;
   border: none;
-  font-size: 16px;
+  font-size: 24px;
   background-color: transparent;
-  padding: 8px 12px;
+  padding: 36px 24px 24px;
 }
 
 #help button:hover {
@@ -83,7 +83,6 @@ button {
 }
 
 #info {
-  /* display: none; */
   z-index: 100;
   position: fixed;
   height: 80vh;
@@ -97,7 +96,7 @@ button {
 }
 
 pre {
-  font-size: 11px;
+  font-size: 12px;
   padding: 24px 32px;
   white-space: pre-wrap;
 }
