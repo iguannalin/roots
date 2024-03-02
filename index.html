@@ -168,8 +168,6 @@
             }
             document.addEventListener('mousedown', handleTouch, {passive: false});
             document.addEventListener('touchstart', (e) => handleTouch(e, true), {passive: false});
-
-            // ontouchstart = (e) => handleTouch(e, true); // doesn't work if you want to get rid of auto text-select on safari (via e.preventDefault())
         });
 
         window.onbeforeunload = function () { // always start from beginning
