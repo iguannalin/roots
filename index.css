@@ -103,6 +103,6 @@ pre {
 
 #start {
   position: fixed;
-  bottom: 10px;
+  bottom: 5px;
   left: calc(50% - 125px);
 }
