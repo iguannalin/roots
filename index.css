@@ -100,3 +100,9 @@ pre {
   padding: 24px 32px;
   white-space: pre-wrap;
 }
+
+#start {
+  position: fixed;
+  bottom: 10px;
+  left: calc(50% - 125px);
+}

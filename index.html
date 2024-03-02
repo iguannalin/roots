@@ -9,10 +9,12 @@
     </head>
     <body>
         <div id="container"></div>
-        <div id="info"></div>
+        <div id="info">
+        </div>
         <div id="help">
             <button id="details">...</button>
         </div>
+        <pre id="start">(click anywhere to start)</pre>
     </body>
 
     <script type="module">
@@ -45,6 +47,7 @@
             const container = document.getElementById("container");
             const info = document.getElementById("info");
             const details = document.getElementById("details");
+            const start = document.getElementById("start");
             const grasses = ["⺌", "丶", "⺍", "艹", "⺮"]; // grass & "grass" radicals
             const trees = ["木", "林", "森"]; // tree radicals
             const touchPoints = [];
@@ -131,9 +134,9 @@
                     windowOpen = false;
                     isDetailsClicked = false;
                     info.style.display = "none";
+                    start.style.display = "none";
                     return;
                 }
-                // e.preventDefault();
                 let [x, y] = (!isMobile) ? [e.pageX, e.pageY] : [e.targetTouches[0].pageX, e.targetTouches[0].pageY];
                 drawGrass(x, y, true);
                 let getX = (s=0,r) => x + r * Math.sin(s);
@@ -154,15 +157,13 @@
                 const pre = document.createElement("pre");
                 pre.innerHTML = d;
                 info.appendChild(pre);
-                // const button = document.createElement("button");
-                // button.innerHTML = "begin";
-                // info.appendChild(button);
             });
             
             details.onclick = (e) => {
                 isDetailsClicked = true;
                 windowOpen = true;
                 info.style.display = "block";
+                start.style.display = "block";
                 e.preventDefault();
             }
             document.addEventListener('mousedown', handleTouch, {passive: false});
