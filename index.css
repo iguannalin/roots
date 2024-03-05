@@ -2,6 +2,8 @@
   --main-bg-color: rgb(35, 35, 35);
   --main-text-color: #f9faffde;
   --shadow-color: #858ebc;
+  --tree-color: lime;
+  --info-bg-color: green;
 }
 
 body {
@@ -44,22 +46,7 @@ span {
 
 .tree {
   z-index: 100;
-  color: lime;
-}
-
-.border {
-  width: 150vw;
-  font-size: 12px;
-}
-
-.border span {
-  border: 0.5px solid var(--main-text-color);
-  border-radius: 20px;
-  padding: 8px 16px;
-  margin-left: -12px;
-  box-sizing: border-box;
-  position: relative;
-  display: inline;
+  color: var(--tree-color);
 }
 
 #help {
@@ -70,7 +57,7 @@ span {
 }
 
 button {
-  color: lime;
+  color: var(--tree-color);
   border: none;
   font-size: 20px;
   background-color: transparent;
@@ -88,7 +75,7 @@ button {
   height: 80vh;
   width: min(85vw, 50ch);
   overflow-y: scroll;
-  background-color: green;
+  background-color: var(--info-bg-color);
   border-radius: 12px;
   box-shadow: 1px 1px 10px var(--shadow-color);
   top: 50%; left: 50%;
