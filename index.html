@@ -60,6 +60,7 @@
                 return Math.floor(Math.random() * (max - min) + min); // The maximum is exclusive and the minimum is inclusive
             }
             
+            // TODO work on state management :0 live grass growing by many people at the same time!!!
             get(dataRef).then((snapshot) => {
                 if (!snapshot) return;
                 const data = snapshot.val();
@@ -67,7 +68,6 @@
                 for (let item in data) {
                     const pos = data[item].split(",");
                     const elem = document.createElement("span");
-                    console.log(pos);
                     if (pos[2] && pos[2] == "tree") {
                         elem.innerText = trees[getRandomInt(0, trees.length)];
                         elem.style.top = pos[1]+"px";
@@ -87,7 +87,6 @@
                     elem.className = pos[2] ? pos[2] : "grass";
                     container.appendChild(elem);
                 }
-                console.log(touchPoints)
             });
 
             function drawGrass(x, y, isCenter=false) {
@@ -116,7 +115,6 @@
                 if (!touchPoints[treeIndex]) return;
                 const tree = document.createElement("span");
                 const center = touchPoints[treeIndex];
-                console.log("drawTree", center);
                 tree.className = "tree";
                 tree.innerText = trees[getRandomInt(0, trees.length)];
                 center.x = +(center.x) + ((Math.random()>0.5?-1:1) * getRandomInt(1,10));
