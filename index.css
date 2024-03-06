@@ -71,7 +71,7 @@ button {
 }
 
 #info {
-  z-index: 100;
+  z-index: 1000;
   position: fixed;
   height: 80vh;
   width: min(85vw, 50ch);
@@ -93,4 +93,5 @@ pre {
   position: fixed;
   bottom: 5px;
   left: calc(50% - 125px);
+  z-index: 1000;
 }

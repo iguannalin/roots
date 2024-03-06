@@ -67,21 +67,27 @@
                 for (let item in data) {
                     const pos = data[item].split(",");
                     const elem = document.createElement("span");
+                    console.log(pos);
                     if (pos[2] && pos[2] == "tree") {
                         elem.innerText = trees[getRandomInt(0, trees.length)];
                         elem.style.top = pos[1]+"px";
                         elem.style.left = pos[0]+"px";
                         touchPoints.push({x:pos[0],y:pos[1],class:pos[2],ct:pos[3]});
                         treeIndex += 1;
-                    } else {
+                    } else if (pos[2]) {
                         elem.innerText = grasses[getRandomInt(0, grasses.length)];
                         elem.style.top = pos[1]+"px";
                         elem.style.left = pos[0]+"px";
                         touchPoints.push({x:pos[0],y:pos[1],class:pos[2]});
+                    } else {
+                        elem.innerText = "🔥";
+                        elem.style.top = (pos[1]?pos[1]:getRandomInt(0,window.innerHeight))+"px";
+                        elem.style.left = (pos[0]?pos[0]:getRandomInt(0,window.innerWidth))+"px";
                     }
                     elem.className = pos[2] ? pos[2] : "grass";
                     container.appendChild(elem);
                 }
+                console.log(touchPoints)
             });
 
             function drawGrass(x, y, isCenter=false) {
@@ -110,13 +116,14 @@
                 if (!touchPoints[treeIndex]) return;
                 const tree = document.createElement("span");
                 const center = touchPoints[treeIndex];
+                console.log("drawTree", center);
                 tree.className = "tree";
                 tree.innerText = trees[getRandomInt(0, trees.length)];
                 center.x = +(center.x) + ((Math.random()>0.5?-1:1) * getRandomInt(1,10));
                 tree.style.left = center.x + "px";
                 center.y -= 1+(Math.random()*8);
                 tree.style.top = center.y + "px";
-                center.ct += 1; // count of tree characters 'grown' in that one center point
+                center.ct = center.ct ? +(center.ct) + 1 : 1; // count of tree characters 'grown' in that one center point
                 container.appendChild(tree);
                 if (center.ct > treemax && treeIndex < touchPoints.length) treeIndex += 1;
                 push(dataRef, `${center.x},${center.y},tree,${center.ct}`);
