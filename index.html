@@ -60,7 +60,6 @@
                 return Math.floor(Math.random() * (max - min) + min); // The maximum is exclusive and the minimum is inclusive
             }
             
-            // TODO work on state management :0 live grass growing by many people at the same time!!!
             get(dataRef).then((snapshot) => {
                 if (!snapshot) return;
                 const data = snapshot.val();
@@ -79,8 +78,9 @@
                         elem.style.top = pos[1]+"px";
                         elem.style.left = pos[0]+"px";
                         touchPoints.push({x:pos[0],y:pos[1],class:pos[2]});
-                    } else {
-                        elem.innerText = "🔥";
+                    } else { // arson
+                        elem.innerText = "火";
+                        elem.style.color = "red";
                         elem.style.top = (pos[1]?pos[1]:getRandomInt(0,window.innerHeight))+"px";
                         elem.style.left = (pos[0]?pos[0]:getRandomInt(0,window.innerWidth))+"px";
                     }
