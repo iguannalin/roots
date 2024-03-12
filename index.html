@@ -14,7 +14,7 @@
         <div id="help">
             <button id="details">?</button>
         </div>
-        <pre id="start">(click anywhere to start)</pre>
+        <button id="start">(click anywhere to start)</button>
     </body>
 
     <script type="module">
@@ -127,7 +127,7 @@
                 push(dataRef, `${center.x},${center.y},tree,${center.ct}`);
             }
             
-            function handleTouch(e, isMobile = false, doubleTap = false) {
+            function handleTouch(e, isMobile = false, isKeyPress = false) {
                 if (windowOpen && !(e && e.target && e.target.href)) { // close window if anywhere on screen is clicked
                     if (isMobile && (e.target && e.target.parentElement == info)) {
                         return;
@@ -138,7 +138,7 @@
                     start.style.display = "none";
                     return;
                 } else if (e.target && e.target == details) return;
-                let [x, y] = (!isMobile) ? [e.pageX, e.pageY] : [e.targetTouches[0].pageX, e.targetTouches[0].pageY];
+                let [x, y] = (!isMobile) ? (isKeyPress) ? [getRandomInt(0,screen.width),getRandomInt(0,window.innerHeight)] : [e.pageX, e.pageY] : [e.targetTouches[0].pageX, e.targetTouches[0].pageY];
                 drawGrass(x, y, true);
                 let getX = (s=0,r) => x + r * Math.sin(s);
                 let getY = (c=0,r) => y + r * Math.cos(c);
@@ -151,7 +151,18 @@
                     radius = getRandomInt(10, 50);
                     drawGrass(getX(s+=1,radius), getY(c+=1,radius));
                 }, 50);
-                (!isMobile) ? onmouseup = () => {clearInterval(interval);} : ontouchend = () => {clearInterval(interval);};
+                if (isMobile) ontouchend = () => {clearInterval(interval)};
+                else if (isKeyPress) {
+                    setTimeout(() => {clearInterval(interval);}, 500);
+                    onkeyup = () => {clearInterval(interval);};
+                } else onmouseup = () => {clearInterval(interval);};
+            }
+
+            function openWindow(e) {
+                isDetailsClicked = true;
+                windowOpen = true;
+                info.style.display = "block";
+                start.style.display = "block";
             }
 
             fetch("info.txt").then((r)=>r.text()).then((d)=>{
@@ -160,15 +171,22 @@
                 info.appendChild(pre);
             });
 
-            details.addEventListener("click", (e) => {
-                isDetailsClicked = true;
-                windowOpen = true;
-                info.style.display = "block";
-                start.style.display = "block";
-                e.preventDefault();
-            });
+            details.addEventListener("click", openWindow);
+
             document.addEventListener('mousedown', handleTouch, {passive: false});
             document.addEventListener('touchstart', (e) => handleTouch(e, true), {passive: false});
+            document.addEventListener('keydown', (e) => {
+                if (e.key == "Tab" && windowOpen) {
+                    return;
+                } else if (windowOpen && document.activeElement && (e.key == " " || e.key == "Enter")) {
+                    windowOpen = false;
+                    isDetailsClicked = false;
+                    info.style.display = "none";
+                    start.style.display = "none";
+                    return;
+                }
+                handleTouch(e, false, true)
+            });
         });
 
         window.onbeforeunload = function () { // always start from beginning

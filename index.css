@@ -83,7 +83,7 @@ button {
   transform: translate(-50%, -50%)
 }
 
-pre {
+pre, #start {
   font-size: 12px;
   padding: 24px 32px;
   white-space: pre-wrap;
@@ -92,6 +92,7 @@ pre {
 #start {
   position: fixed;
   bottom: 5px;
-  left: calc(50% - 125px);
+  left: calc(50% - 95px);
   z-index: 1000;
+  color: var(--main-text-color);
 }
