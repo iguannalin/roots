@@ -90,9 +90,10 @@ pre, #start {
 }
 
 #start {
+  color: limegreen;
+  text-shadow: var(--shadow-color) -2px 2px 8px;
   position: fixed;
   bottom: 5px;
   left: calc(50% - 95px);
   z-index: 1000;
-  color: var(--main-text-color);
 }
