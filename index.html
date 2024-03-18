@@ -49,9 +49,9 @@
             const touchPoints = [];
             let isDetailsClicked = false;
             let windowOpen = true;
-            let grassIndex = Math.max(Math.min(0,document.body.scrollWidth/2), 750); // girl math
+            let grassIndex = 0;
             let treeIndex = 0;
-            let grassmax = 75;
+            let grassMax = Math.max(Math.min(0,document.body.scrollWidth/2), 500); // girl math
             let treemax = 25;
 
             function getRandomInt(min, max) {
@@ -93,11 +93,12 @@
                 if (Math.random()>0.4 && !isCenter) return; // skips sometimes
                 let grass;
                 const grassSpans = Array.from(document.getElementsByClassName("grass"));
-                if (grassSpans.length > grassmax && !isCenter) { // only the max amount of grass spans allowed
+                if (grassSpans.length > grassMax && !isCenter) { // only the max amount of grass spans allowed
                     grass = grassSpans[grassIndex];
                     grass.style.top = y-7+"px";
                     grass.style.left = x-7+"px";
                     grassIndex += 1;
+                    if (grassIndex == grassMax) grassIndex = 0;
                     if (Math.random()>0.4) setTimeout(drawTree, getRandomInt(2500, 7000));
                 }
                 else {
@@ -139,7 +140,7 @@
                     return;
                 } else if (e.target && e.target == details) return;
                 let [x, y] = (!isMobile) ? (isKeyPress) ? [getRandomInt(0,document.body.scrollWidth),getRandomInt(0,window.innerHeight)] : [e.pageX, e.pageY] : [e.targetTouches[0].pageX, e.targetTouches[0].pageY];
-                drawGrass(x, y, true);
+                drawGrass(x, y, isKeyPress);
                 let getX = (s=0,r) => x + r * Math.sin(s);
                 let getY = (c=0,r) => y + r * Math.cos(c);
                 let radius = 2;
