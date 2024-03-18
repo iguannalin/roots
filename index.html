@@ -49,7 +49,7 @@
             const touchPoints = [];
             let isDetailsClicked = false;
             let windowOpen = true;
-            let grassIndex = 0;
+            let grassIndex = Math.max(Math.min(0,document.body.scrollWidth/2), 750); // girl math
             let treeIndex = 0;
             let grassmax = 75;
             let treemax = 25;
@@ -93,11 +93,12 @@
                 if (Math.random()>0.4 && !isCenter) return; // skips sometimes
                 let grass;
                 const grassSpans = Array.from(document.getElementsByClassName("grass"));
+                console.log(grassSpans.length);
                 if (grassSpans.length > grassmax && !isCenter) { // only the max amount of grass spans allowed
                     grass = grassSpans[grassIndex];
                     grass.style.top = y-7+"px";
                     grass.style.left = x-7+"px";
-                    grassIndex = grassIndex >= grassmax ? 0 : grassIndex + 1;
+                    grassIndex += 1;
                     if (Math.random()>0.4) setTimeout(drawTree, getRandomInt(2500, 7000));
                 }
                 else {
