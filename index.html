@@ -93,7 +93,6 @@
                 if (Math.random()>0.4 && !isCenter) return; // skips sometimes
                 let grass;
                 const grassSpans = Array.from(document.getElementsByClassName("grass"));
-                console.log(grassSpans.length);
                 if (grassSpans.length > grassmax && !isCenter) { // only the max amount of grass spans allowed
                     grass = grassSpans[grassIndex];
                     grass.style.top = y-7+"px";
