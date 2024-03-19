@@ -23,6 +23,7 @@
             getDatabase,
             ref,
             get,
+            update,
             push
         } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-database.js";
 
@@ -54,10 +55,12 @@
             let grassMax = Math.max(Math.min(0,document.body.scrollWidth/2), 750); // girl math
             let treemax = 25;
 
+            function getRounded(num) { return Math.round(num *100) / 100; }
+
             function getRandomInt(min, max) {
                 min = Math.ceil(min);
                 max = Math.floor(max);
-                return Math.floor(Math.random() * (max - min) + min); // The maximum is exclusive and the minimum is inclusive
+                return getRounded(Math.floor(Math.random() * (max - min) + min)); // The maximum is exclusive and the minimum is inclusive
             }
             
             get(dataRef).then((snapshot) => {
@@ -71,13 +74,13 @@
                         elem.innerText = trees[getRandomInt(0, trees.length)];
                         elem.style.top = pos[1]+"px";
                         elem.style.left = pos[0]+"px";
-                        touchPoints.push({x:pos[0],y:pos[1],class:pos[2],ct:pos[3]});
+                        touchPoints.push({id:item.toString(),x:pos[0],y:pos[1],class:pos[2],ct:pos[3]});
                         treeIndex += 1;
                     } else if (pos[2]) {
                         elem.innerText = grasses[getRandomInt(0, grasses.length)];
                         elem.style.top = pos[1]+"px";
                         elem.style.left = pos[0]+"px";
-                        touchPoints.push({x:pos[0],y:pos[1],class:pos[2]});
+                        touchPoints.push({id:item.toString(),x:pos[0],y:pos[1],class:pos[2]});
                     } else { // arson
                         elem.innerText = "火";
                         elem.style.color = "red";
@@ -89,27 +92,32 @@
                 }
             });
 
-            function growGrass(x, y, isCenter=false) {
+            function growGrass(x, y, isCenter=false, id=null) {
                 if (Math.random()>0.4 && !isCenter) return; // skips sometimes
                 let grass;
                 const grassSpans = Array.from(document.getElementsByClassName("grass"));
-                if (grassSpans.length > grassMax && !isCenter) { // only the max amount of grass spans allowed
+                if (grassSpans.length > grassMax && !isCenter) { // recycle grass nodes; only the max amount of grass spans allowed
                     grass = grassSpans[grassIndex];
                     grass.style.top = y-7+"px";
                     grass.style.left = x-7+"px";
                     grassIndex += 1;
                     if (grassIndex == grassMax) grassIndex = 0;
                     if (Math.random()>0.4) setTimeout(growTree, getRandomInt(2500, 7000));
-                }
-                else {
+                    if (touchPoints[grassIndex] && touchPoints[grassIndex].id) {// we only recycle non-center nodes here, which don't have id
+                        const grassID = touchPoints[grassIndex].id;
+                        update(dataRef, { grassID: `${x-7},${y-7},"grass"` });
+                    } else {
+                        push(dataRef, `${x-7},${y-7},"grass"`);
+                    }
+                } else { // create "new" grasss nodes
                     grass = document.createElement("span");
                     grass.className = isCenter ? "center" : "grass";
                     grass.style.top = y-7+"px";
                     grass.style.left = x-7+"px";
                     container.appendChild(grass);
+                    push(dataRef, `${x-7},${y-7},${isCenter ? "center" : "grass"}`);
                 }
                 grass.innerText = grasses[getRandomInt(0, grasses.length)];
-                push(dataRef, `${x-7},${y-7},${isCenter ? "center" : "grass"}`);
             }
 
             function growTree() {
@@ -118,9 +126,9 @@
                 const center = touchPoints[treeIndex];
                 tree.className = "tree";
                 tree.innerText = trees[getRandomInt(0, trees.length)];
-                center.x = +(center.x) + ((Math.random()>0.5?-1:1) * getRandomInt(1,10));
+                center.x = getRounded(+(center.x) + (Math.random()>0.5?-1:1) * getRandomInt(1,10));
                 tree.style.left = center.x + "px";
-                center.y -= 1+(Math.random()*8);
+                center.y -= getRounded(1+(Math.random()*8));
                 tree.style.top = center.y + "px";
                 center.ct = center.ct ? +(center.ct) + 1 : 1; // count of tree characters 'grown' in that one center point
                 container.appendChild(tree);
@@ -138,13 +146,16 @@
                     return;
                 } else if (e.target && e.target == details) return;
                 let [x, y] = (!isMobile) ? (isKeyPress) ? [getRandomInt(0,document.body.scrollWidth),getRandomInt(0,window.innerHeight)] : [e.pageX, e.pageY] : [e.targetTouches[0].pageX, e.targetTouches[0].pageY];
-                growGrass(x, y, isKeyPress);
-                let getX = (s=0,r) => x + r * Math.sin(s);
-                let getY = (c=0,r) => y + r * Math.cos(c);
+                x = getRounded(x);
+                y = getRounded(y);
+                growGrass(x, y, !isKeyPress); // all key presses are not center points
+                let getX = (s=0,r) => getRounded(x + r * Math.sin(s));
+                let getY = (c=0,r) => getRounded(y + r * Math.cos(c));
                 let radius = 2;
                 let s = 0; let c = 0;
                 for (let i = 0; i < getRandomInt(2,5); i++) {
-                    touchPoints.push({x:x+(i*Math.random()*25), y:y+(i*Math.random()*25), ct: 0});
+                    // push center point
+                    touchPoints.push({id:null, x:x+(i*Math.random()*25), y:y+(i*Math.random()*25), ct: 0});
                 }
                 let interval = setInterval(() => {
                     radius = getRandomInt(10, 50);
