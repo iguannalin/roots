@@ -155,7 +155,7 @@
                 let s = 0; let c = 0;
                 for (let i = 0; i < getRandomInt(2,5); i++) {
                     // push center point
-                    touchPoints.push({id:null, x:x+(i*Math.random()*25), y:y+(i*Math.random()*25), ct: 0});
+                    touchPoints.push({id:null, x:x+getRounded(i*Math.random()*25), y:y+getRounded(i*Math.random()*25), ct: 0});
                 }
                 let interval = setInterval(() => {
                     radius = getRandomInt(10, 50);
