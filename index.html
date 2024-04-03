@@ -68,7 +68,7 @@
                 const res = snapshot.val();
                 const arr = Object.keys(res);
                 let data = {};
-                arr.slice(arr.length-25000,arr.length).forEach((obj) => data[obj]=res[obj]);
+                arr.slice(arr.length-20000,arr.length).forEach((obj) => data[obj]=res[obj]);
                 for (let item in data) {
                     const pos = data[item].split(",");
                     const elem = document.createElement("span");
